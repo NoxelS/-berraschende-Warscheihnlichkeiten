@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <link rel="stylesheet" href="https://bootadmin.net/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://bootadmin.net/css/fontawesome-all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://bootadmin.net/css/datatables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://bootadmin.net/css/fullcalendar.min.css"
+    />
+    <link rel="stylesheet" href="https://bootadmin.net/css/bootadmin.min.css" />
+    <script src="./main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css"
+    />
+
+    <title>Noel-S WG</title>
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-expand navbar-dark bg-primary">
+      <a class="navbar-brand" href="https://noel-s.ch"
+        >Noel-S Warscheihnlichkeitsgenerator</a
+      >
+
+      <div class="navbar-collapse collapse">
+        <ul class="navbar-nav ml-auto"></ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <h2 class="mb-4 mt-4">Überraschende Warscheihnlichkeit</h2>
+
+      <div class="row mb-4">
+        <div class="col-md">
+          <div class="d-flex border">
+            <div class="bg-primary text-light p-4">
+              <div class="d-flex align-items-center h-100"></div>
+            </div>
+            <div class="flex-grow-1 bg-white p-4">
+              <p class="text-uppercase text-secondary mb-0">Rounds Played</p>
+              <h3 class="font-weight-bold mb-0" id="round_played">0</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="d-flex border">
+            <div class="bg-success text-light p-4">
+              <div class="d-flex align-items-center h-100"></div>
+            </div>
+            <div class="flex-grow-1 bg-white p-4">
+              <p class="text-uppercase text-secondary mb-0">Player 1 Wins</p>
+              <h3 class="font-weight-bold mb-0" id="win_1">0</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="d-flex border">
+            <div class="bg-danger text-light p-4">
+              <div class="d-flex align-items-center h-100"></div>
+            </div>
+            <div class="flex-grow-1 bg-white p-4">
+              <p class="text-uppercase text-secondary mb-0">Player 2 Wins</p>
+              <h3 class="font-weight-bold mb-0" id="win_2">0</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="d-flex border">
+            <div class="bg-info text-light p-4">
+              <div class="d-flex align-items-center h-100"></div>
+            </div>
+            <div class="flex-grow-1 bg-white p-4">
+              <p class="text-uppercase text-secondary mb-0">
+                Player 1 Winrate
+              </p>
+              <h3 class="font-weight-bold mb-0" id="p_1">0</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header bg-white font-weight-bold">
+          Players
+        </div>
+        <div class="card-body">
+          <div class="h5">Player1</div>
+          <div class="h6">Wincondition: <b id="wincon_1">01</b></div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <button
+                class="btn btn-primary"
+                onclick="setWincondion(0, document.getElementById('WC_1').value);"
+              >
+                Set
+              </button>
+              <span class="input-group-text">Player1</span>
+            </div>
+            <input
+              type="text"
+              id="WC_1"
+              class="form-control"
+              placeholder="Wincondition"
+              aria-label="Wincondition"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+          <div class="h5">Player2</div>
+          <div class="h6">Wincondition: <b id="wincon_2">00</b></div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <button
+                class="btn btn-primary"
+                onclick="setWincondion(1, document.getElementById('WC_2').value);"
+              >
+                Set
+              </button>
+
+              <span class="input-group-text" id="basic-addon1">Player2</span>
+            </div>
+            <input
+              type="text"
+              id="WC_2"
+              class="form-control"
+              placeholder="Wincondition"
+              aria-label="Wincondition"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+          <div class="h5">Delay</div>
+          <div class="h6">
+            Die momentane Verzögerung liegt bei <b id="delay_ms">0</b> ms.
+          </div>
+          <div class="input-group-prepend">
+            <div class="input-group-prepend">
+              <button
+                class="btn btn-primary"
+                onclick="delay = document.getElementById('delay').value; document.getElementById('delay_ms').innerHTML = delay;"
+              >
+                Set
+              </button>
+
+              <span class="input-group-text" id="basic-addon1">Delay (ms)</span>
+            </div>
+            <input
+              type="text"
+              id="delay"
+              class="form-control"
+              placeholder="Delay"
+              aria-label="Delay"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-header bg-white font-weight-bold">
+          Current Round
+        </div>
+        <div class="card-body">
+        <div class="alert mt-2" id="info_p1">
+          <p class="h5">Player1:</p>
+          <i id="row_1">0-1-0-1-1-1-0</i><br />
+          </div>
+          <div class="alert mt-2" id="info_p2">
+            <p class="h5">Player2:</p>
+            <i id="row_2">0-1-1-1-0-1-0</i><br />
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-header bg-white font-weight-bold">
+          Simulate
+        </div>
+        <div class="card-body">
+          <h4 id="win"></h4>
+          <button class="btn btn-primary" onclick="simulateRound();">
+            Round
+          </button>
+          <button class="btn btn-primary" onclick="simulateRounds(50);">
+            50 Rounds
+          </button>
+          <button class="btn btn-primary" onclick="simulateRounds(100);">
+                100 Rounds
+            </button>
+          <button class="btn btn-primary" onclick="simulateRounds(500);">
+            500 Rounds
+          </button>
+          <button class="btn btn-primary" onclick="simulateRounds(9999);">
+            Infinity Rounds
+          </button>
+        </div>
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-header bg-white font-weight-bold">
+          Überraschende Warscheihnlichkeit
+        </div>
+        <div class="card-body">
+          <div id="graphdiv4" style="width:100%; height:320px;"></div>
+        </div>
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-header bg-white font-weight-bold">
+          Player Winrates
+        </div>
+        <div class="card-body">
+          <div class="progress bg-success">
+            <div
+              id="progp_1"
+              class="progress-bar bg-danger"
+              role="progressbar"
+              style="width: 0%"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+            <div
+              id="progp_2"
+              class="progress-bar bg-success ml-5"
+              role="progressbar"
+              style="width: 0%"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="mt-4">
+        <button
+          class="btn btn-primary"
+          type="button"
+          data-toggle="collapse"
+          data-target="#collapseExample"
+          aria-expanded="false"
+          aria-controls="collapseExample"
+        >
+          So funktioniert es
+        </button>
+      </p>
+
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+          So funktioniert es:
+        </div>
+      </div>
+    </div>
+
+    <footer class="mt-5 pt-3 pb-3 bg-dark">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto text-light">
+          <span>Copyright © Noel Schwabenland 2018</span>
+        </div>
+      </div>
+      </div>
+    </footer>
+
+    <script src="https://bootadmin.net/js/jquery.min.js"></script>
+    <script src="https://bootadmin.net/js/bootstrap.bundle.min.js"></script>
+    <script src="https://bootadmin.net/js/datatables.min.js"></script>
+    <script src="https://bootadmin.net/js/moment.min.js"></script>
+    <script src="https://bootadmin.net/js/fullcalendar.min.js"></script>
+
+    <script src="./chartupdate.js"></script>
+    <script src="https://bootadmin.net/js/bootadmin.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+    <script type="text/javascript">
+      google.charts.load("current", { packages: ["corechart"] });
+      google.charts.setOnLoadCallback(drawChart3);
+      google.charts.setOnLoadCallback(drawChart4);
+
+      function drawChart3() {
+        var data = google.visualization.arrayToDataTable([
+          ["Year", "Sales", "Expenses"],
+          ["2013", 1000, 400],
+          ["2014", 1170, 460],
+          ["2015", 660, 1120],
+          ["2016", 1030, 540]
+        ]);
+
+        var options = {
+          title: "Company Performance",
+          hAxis: { title: "Year", titleTextStyle: { color: "#333" } },
+          vAxis: { minValue: 0 }
+        };
+
+        var chart = new google.visualization.AreaChart(
+          document.getElementById("chart_div_3")
+        );
+        chart.draw(data, options);
+      }
+
+      function drawChart4() {
+        var data = google.visualization.arrayToDataTable([
+          ["Country", "Popularity"],
+          ["Germany", 200],
+          ["United States", 300],
+          ["Brazil", 400],
+          ["Canada", 500],
+          ["France", 600],
+          ["RU", 700]
+        ]);
+
+        var options = {};
+
+        var chart = new google.visualization.GeoChart(
+          document.getElementById("chart_div_4")
+        );
+
+        chart.draw(data, options);
+      }
+    </script>
+
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-118868344-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-118868344-1");
+    </script>
+
+    <script
+      async
+      src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+    ></script>
+  </body>
+</html>
